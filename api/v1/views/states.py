@@ -7,12 +7,13 @@ from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 
+
 @app_views.route('/states', methods=['GET', 'POST'], strict_slashes=False)
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def states_route(state_id=None):
     """
-    Route handler that delegates requests to appropriate function based on HTTP method.
+    Delegates requests to appropriate function based on HTTP method.
     """
     if request.method == 'GET':
         return handle_get_request(state_id)
