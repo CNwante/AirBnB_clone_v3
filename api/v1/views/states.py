@@ -16,18 +16,18 @@ def states_route(state_id=None):
     Delegates requests to appropriate function based on HTTP method.
     """
     if request.method == 'GET':
-        return handle_get_request(state_id)
+        return get_request(state_id)
     elif request.method == 'DELETE':
-        return handle_delete_request(state_id)
+        return delete_request(state_id)
     elif request.method == 'POST':
-        return handle_post_request()
+        return post_request()
     elif request.method == 'PUT':
-        return handle_put_request(state_id)
+        return put_request(state_id)
     else:
         abort(501)
 
 
-def handle_get_request(state_id=None):
+def get_request(state_id=None):
     """Handles GET requests for State objects."""
     states = storage.all(State)
     if state_id is None:
@@ -41,7 +41,7 @@ def handle_get_request(state_id=None):
         abort(404)
 
 
-def handle_delete_request(state_id):
+def delete_request(state_id):
     """Handles DELETE requests for State objects."""
     key = f'State.{state_id}'
     states = storage.all(State)
@@ -54,7 +54,7 @@ def handle_delete_request(state_id):
         abort(404)
 
 
-def handle_post_request():
+def post_request():
     """Handles POST requests to create a new State object."""
     if not request.is_json:
         abort(400, 'Not a JSON')
@@ -69,7 +69,7 @@ def handle_post_request():
     return jsonify(new_state.to_dict()), 201
 
 
-def handle_put_request(state_id):
+def put_request(state_id):
     """Handles PUT requests to update an existing State object."""
     key = f'State.{state_id}'
     states = storage.all(State)
